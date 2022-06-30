@@ -133,15 +133,20 @@ function App() {
             setCategories(Object.keys(completedCyclesRecipeNames));
             setData(completedCyclesRecipeNames);
 
+            console.log(completedCyclesRecipeNames);
+
             // TODO: Fix series
             const d = Object.keys(completedCyclesRecipeNames).map(
-                (recipe_name) => ({
-                    name: "",
-                    data: completedCyclesRecipeNames[recipe_name].processes.map(
-                        ({ average_time_taken }) =>
+                (recipe_name, index) => {
+                    return {
+                        name: index,
+                        data: completedCyclesRecipeNames[
+                            recipe_name
+                        ].processes.map(({ average_time_taken }) =>
                             Duration.fromISO(average_time_taken).as("hour")
-                    ),
-                })
+                        ),
+                    };
+                }
             );
 
             setSeries(d);
@@ -152,6 +157,12 @@ function App() {
         <div className="App">
             <ReactApexChart
                 options={{
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    legend: {
+                        show: false,
+                    },
                     chart: {
                         type: "bar",
                         height: 350,
