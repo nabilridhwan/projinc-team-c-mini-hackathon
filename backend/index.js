@@ -9,12 +9,31 @@ const LogTime = require("./model/log_time");
 const BadRequest = require("./utils/response/BadRequest");
 const InternalServerError = require("./utils/response/InternalServerError");
 const SuccessResponse = require("./utils/response/SuccessResponse");
+const CONFIG = require("./config");
+const pool = require("./utils/databaseConfig");
 
-const PORT = process.env.PORT || 3030;
+const PORT = CONFIG.PORT;
 
 app.use(cors());
 
-app.get("/", async (req, res) => {});
+app.get("/", async (req, res) => {
+    let pool;
+    try {
+        pool = await pool.connect();
+    } catch (error) {
+        console.log(
+            "Error connecting to database, did you start the docker instance (or changed the database ports?)"
+        );
+    } finally {
+        res.json(
+            new SuccessResponse({
+                message: "Hello!",
+                time: DateTime.local().toFormat("yyyy-MM-dd HH:mm:ss"),
+                database_connection: pool ? "connected" : "not connected",
+            })
+        );
+    }
+});
 
 app.get("/api/logtimes", async (req, res, next) => {
     const { start_date, end_date } = req.query;
