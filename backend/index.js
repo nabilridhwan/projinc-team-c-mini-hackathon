@@ -11,6 +11,7 @@ const InternalServerError = require("./utils/response/InternalServerError");
 const SuccessResponse = require("./utils/response/SuccessResponse");
 const CONFIG = require("./config");
 const pool = require("./utils/databaseConfig");
+const LogTimes = require("./controllers/LogTimes");
 
 const PORT = CONFIG.PORT;
 
@@ -35,31 +36,7 @@ app.get("/", async (req, res) => {
     }
 });
 
-app.get("/api/logtimes", async (req, res, next) => {
-    const { start_date, end_date } = req.query;
-
-    // Check if there is start_date and end_date
-    if (start_date && end_date) {
-        // Validate the dates
-        const isStartDateValid = DateTime.fromISO(start_date).isValid;
-        const isEndDateValid = DateTime.fromISO(end_date).isValid;
-
-        if (!isStartDateValid || !isEndDateValid) {
-            return next(new BadRequest("Invalid date"));
-        }
-
-        const data = await LogTime.getLogTimesBetweenDates(
-            start_date,
-            end_date
-        );
-        return res.json(new SuccessResponse(data));
-    }
-
-    const data = await LogTime.getAllLogTimes();
-    return res.json(new SuccessResponse(data));
-
-    // Query against the database
-});
+app.get("/api/logtimes", LogTimes.getAllLogTimes);
 
 app.use((error, req, res, next) => {
     if (error) {
