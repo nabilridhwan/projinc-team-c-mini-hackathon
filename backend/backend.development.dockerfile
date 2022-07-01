@@ -4,4 +4,4 @@ WORKDIR /backend
 
 RUN npm install nodemon -g
 
-ENTRYPOINT [ "nodemon" ]
+ENTRYPOINT [ "npm", "run", "start:dev" ]
