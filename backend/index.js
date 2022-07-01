@@ -1,17 +1,14 @@
-const e = require("express");
 const express = require("express");
 const { DateTime } = require("luxon");
 const cors = require("cors");
 const app = express();
 
-const YUP_SCHEMAS = require("./schemas/yup");
-const LogTime = require("./model/log_time");
-const BadRequest = require("./utils/response/BadRequest");
 const InternalServerError = require("./utils/response/InternalServerError");
 const SuccessResponse = require("./utils/response/SuccessResponse");
+const NotFound = require("./utils/response/NotFound");
 const CONFIG = require("./config");
-const pool = require("./utils/databaseConfig");
-const LogTimes = require("./controllers/LogTimes");
+
+const LogTimeRoutes = require("./routers/LogTimeRoutes");
 
 const PORT = CONFIG.PORT;
 
@@ -36,7 +33,12 @@ app.get("/", async (req, res) => {
     }
 });
 
-app.get("/api/logtimes", LogTimes.getAllLogTimes);
+app.use("/api", LogTimeRoutes);
+
+// 404 Route
+app.get("*", (req, res, next) => {
+    return next(new NotFound("Endpoint not found"));
+});
 
 app.use((error, req, res, next) => {
     if (error) {
