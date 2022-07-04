@@ -13,8 +13,6 @@ function App() {
 
     const [series, setSeries] = useState([]);
 
-    const [options, setOptions] = useState();
-
     useEffect(() => {
         (async () => {
             const results = await getAllLogTimes();
@@ -51,6 +49,8 @@ function App() {
                 },
                 {}
             );
+
+            console.log(completedCyclesRecipeNames);
 
             completedCycles.forEach((cycle) => {
                 const { recipe_name, process_step_id, process_step_name } =

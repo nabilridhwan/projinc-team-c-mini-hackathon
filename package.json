@@ -1,0 +1,21 @@
+{
+    "name": "project-inc-team-c-mini-hackathon",
+    "version": "1.0.0",
+    "description": "## Docker",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start:dev": "concurrently \"npm start --prefix frontend\" \"nodemon ./backend\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nabilridhwan/projinc-team-c-mini-hackathon.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/nabilridhwan/projinc-team-c-mini-hackathon/issues"
+    },
+    "homepage": "https://github.com/nabilridhwan/projinc-team-c-mini-hackathon#readme"
+}

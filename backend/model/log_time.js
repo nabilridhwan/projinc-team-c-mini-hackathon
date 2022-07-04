@@ -2,6 +2,10 @@ const { DateTime } = require("luxon");
 const db = require("../utils/databaseConfig");
 
 const LogTime = {
+    /**
+     * Get all log times
+     * @returns {Promise<Array>}
+     */
     getAllLogTimes: async () => {
         const query = `
 SELECT l.id AS log_time_id, rf.desc_translate as recipe_flow_name, rf.id as recipe_flow_id, rp."name" as recipe_name,
